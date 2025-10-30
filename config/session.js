@@ -18,7 +18,19 @@ module.exports.session = {
   * of your users, forcing them to log in again.                             *
   *                                                                          *
   ***************************************************************************/
-  secret: 'e3dc0d1551ac5e290a4e549d1cbb0ef0',
+  secret: process.env.SESSION_SECRET || 'e3dc0d1551ac5e290a4e549d1cbb0ef0',
+
+  /***************************************************************************
+  *                                                                          *
+  * Session configuration for authentication                                  *
+  *                                                                          *
+  ***************************************************************************/
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    httpOnly: true,
+    secure: false, // Set to true in production with HTTPS
+    sameSite: 'lax'
+  },
 
 
   /***************************************************************************

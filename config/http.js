@@ -29,16 +29,29 @@ module.exports.http = {
     *                                                                          *
     ***************************************************************************/
 
-    // order: [
-    //   'cookieParser',
-    //   'session',
-    //   'bodyParser',
-    //   'compress',
-    //   'poweredBy',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    // ],
+    order: [
+      'cookieParser',
+      'session',
+      'bodyParser',
+      'methodOverride',
+      'compress',
+      'poweredBy',
+      'router',
+      'www',
+      'favicon',
+    ],
+
+    methodOverride: function(req, res, next) {
+      // Check _method in body first, then query params
+      if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        const method = req.body._method;
+        delete req.body._method;
+        req.method = method.toUpperCase();
+      } else if (req.query && '_method' in req.query) {
+        req.method = req.query._method.toUpperCase();
+      }
+      next();
+    },
 
 
     /***************************************************************************

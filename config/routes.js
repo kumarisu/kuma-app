@@ -21,9 +21,35 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
-  'GET /puzzle-image/get': 'PuzzleImageController.find',
+  // Auth routes (public)
+  'GET /auth/login': 'AuthController.showLogin',
+  'POST /auth/send-otp': 'AuthController.sendOTP',
+  'GET /auth/verify': { view: 'pages/auth/verify-otp' },
+  'POST /auth/verify-otp': 'AuthController.verifyOTP',
+  'POST /auth/logout': 'AuthController.logout',
+  'GET /auth/me': 'AuthController.me',
 
+  // Deck routes (protected)
+  'GET /deck': { controller: 'DeckController', action: 'index', policy: 'isAuthenticated' },
+  'GET /deck/new': { controller: 'DeckController', action: 'new', policy: 'isAuthenticated' },
+  'POST /deck': { controller: 'DeckController', action: 'create', policy: 'isAuthenticated' },
+  'GET /deck/:id': { controller: 'DeckController', action: 'show', policy: 'isAuthenticated' },
+  'GET /deck/:id/edit': { controller: 'DeckController', action: 'edit', policy: 'isAuthenticated' },
+  'PUT /deck/:id': { controller: 'DeckController', action: 'update', policy: 'isAuthenticated' },
+  'POST /deck/:id': { controller: 'DeckController', action: 'update', policy: 'isAuthenticated' },
+  'DELETE /deck/:id': { controller: 'DeckController', action: 'destroy', policy: 'isAuthenticated' },
+  'POST /deck/:id/delete': { controller: 'DeckController', action: 'destroy', policy: 'isAuthenticated' },
+
+  // API routes
+  'GET /api/deck': 'DeckController.find',
+  'POST /api/deck': 'DeckController.create',
+  'GET /api/deck/:id': 'DeckController.show',
+  'PUT /api/deck/:id': 'DeckController.update',
+  'DELETE /api/deck/:id': 'DeckController.destroy',
+
+  // Legacy routes (keep for compatibility)
   'GET /deck/get': 'DeckController.find',
+  'GET /puzzle-image/get': 'PuzzleImageController.find',
 
   /***************************************************************************
   *                                                                          *
